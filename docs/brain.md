@@ -16,8 +16,10 @@ We are expanding the static analysis engine with more sophisticated rules to cov
 - [x] Add JSON Output Support for Analysis Results
 - [x] Fix False Positive in "Avoid String Concatenation in Loops"
 - [x] Create End User Documentation
+- [x] Create Public GitHub Repository
 
 ## Development Log
+- **2026-02-12**: Published project to GitHub: [JMOA](https://github.com/SHwaier/JMOA).
 - **2026-02-12**: Created `docs/user_guide.md`.
 - **2026-02-12**: Fixed a false positive where numeric addition in loops was flagged as string concatenation.
 - **2026-02-12**: Started MVP Phase 2.

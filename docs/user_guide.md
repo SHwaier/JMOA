@@ -12,7 +12,7 @@ JMOA is a static analysis tool designed to identify memory optimization opportun
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/SHwaier/JMOA.git
    cd JMOA
    ```
 
