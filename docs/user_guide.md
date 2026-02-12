@@ -29,7 +29,7 @@ Run the tool from the command line using the `java -jar` command.
 
 ### Basic Usage
 
-Analyze a single file or a directory:
+Analyze a single file or a directory (including all subdirectories):
 
 ```bash
 java -jar jmoa-cli/target/jmoa-cli-1.0-SNAPSHOT.jar <path-to-source>
@@ -39,6 +39,7 @@ java -jar jmoa-cli/target/jmoa-cli-1.0-SNAPSHOT.jar <path-to-source>
 ```bash
 java -jar jmoa-cli/target/jmoa-cli-1.0-SNAPSHOT.jar src/main/java
 ```
+This command will recursively analyze all `.java` files within `src/main/java`.
 
 ### Options
 

@@ -14,10 +14,10 @@ import java.util.concurrent.Callable;
 @Command(name = "jmoa", mixinStandardHelpOptions = true, version = "jmoa 1.0", description = "Java Memory Optimization Analyzer")
 public class JmoaCli implements Callable<Integer> {
 
-    @Parameters(index = "0", description = "The file or directory to analyze.")
+    @Parameters(index = "0", description = "The file or directory to analyze (recursively).")
     private File file;
 
-    @Option(names = { "-f", "--format" }, description = "Output format: text (default) or json.")
+    @Option(names = { "-f", "--format" }, description = "Output format: text (default), json, or html.")
     private String format = "text";
 
     @Option(names = { "-o", "--output" }, description = "Output file.")
@@ -25,7 +25,7 @@ public class JmoaCli implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        if (!format.equals("json") && outputFile == null) {
+        if (!format.equals("json") && !format.equals("html") && outputFile == null) {
             System.out.println("JMOA - Java Memory Optimization Analyzer");
             System.out.println("Target: " + file.getAbsolutePath());
         }
@@ -36,14 +36,18 @@ public class JmoaCli implements Callable<Integer> {
         String outputContent;
         if ("json".equalsIgnoreCase(format)) {
             outputContent = generateJson(results);
+        } else if ("html".equalsIgnoreCase(format)) {
+            outputContent = new HtmlReportGenerator().generate(results);
         } else {
             outputContent = generateText(results);
         }
 
         if (outputFile != null) {
             java.nio.file.Files.writeString(outputFile.toPath(), outputContent);
-            if (!format.equals("json")) {
+            if (!format.equals("json") && !format.equals("html")) {
                 System.out.println("Results written to " + outputFile.getAbsolutePath());
+            } else {
+                System.out.println("Report generated: " + outputFile.getAbsolutePath());
             }
         } else {
             System.out.println(outputContent);
@@ -72,6 +76,7 @@ public class JmoaCli implements Callable<Integer> {
             json.append("  {\n");
             json.append("    \"rule\": \"").append(escapeJson(result.getRuleName())).append("\",\n");
             json.append("    \"message\": \"").append(escapeJson(result.getMessage())).append("\",\n");
+            json.append("    \"file\": \"").append(escapeJson(result.getFile())).append("\",\n");
             json.append("    \"line\": ").append(result.getLine()).append(",\n");
             json.append("    \"severity\": \"").append(escapeJson(result.getSeverity())).append("\"\n");
             json.append("  }");

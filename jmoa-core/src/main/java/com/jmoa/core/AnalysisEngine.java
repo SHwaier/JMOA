@@ -67,6 +67,9 @@ public class AnalysisEngine {
 
             for (AnalysisRule rule : rules) {
                 List<AnalysisResult> results = rule.analyze(cu);
+                for (AnalysisResult result : results) {
+                    result.setFile(file.getPath());
+                }
                 allResults.addAll(results);
             }
         } catch (IOException e) {
